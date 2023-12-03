@@ -13,7 +13,7 @@ const paymentRoutes = require('./routes/payments')
 const connectDataBase = require('./config/dbConfig');
 
 var app = express();
-
+app.set('view engine', 'jade');
 app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
