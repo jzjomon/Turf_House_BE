@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const connectDataBase = async () => {
     try{
-        const dbConnect = await mongoose.connect('mongodb://127.0.0.1:27017/TurfHouse',{
-            useNewUrlParser: true
+        const dbConnect = await mongoose.connect('mongodb://localhost:27017/TurfHouse').then(res => {
+            console.log(`MongoDB Connected`);
+        }).catch(err => {
+            console.log(`MongoDB Error`);
         })
-        console.log(`MongoDB Connected: {conn.connection.host}`);
     }
     catch (error) {
         console.log(error);
