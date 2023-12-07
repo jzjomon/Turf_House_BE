@@ -72,27 +72,39 @@ const getCourtTimeSlotData = (req, res) => {
         COURT_SCHEDULES.aggregate([
             {
                 $match: {
-                    courtId : new ObjectId(req.body.id),
-                    date : { $gt : new Date()}
+                    courtId: new ObjectId(req.body.id),
+                    date: { $gt: new Date() }
                 },
-            },{
-                $group : {
-                    _id : "$date",
-                    slotData : { $push : {slot : "$slot", rate : "$rate", }}
+            }, {
+                $group: {
+                    _id: "$date",
+                    slotData: { $push: { slot: "$slot", rate: "$rate", } }
                 }
-            },{
-                $sort : {
-                    _id : 1
+            }, {
+                $sort: {
+                    _id: 1
                 }
             }
         ]).then(response => {
-           res.status(200).json(response);
+            res.status(200).json(response);
         }).catch(err => {
-            res.status(400).json({message : err.message});
+            res.status(400).json({ message: err.message });
         })
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
 
-module.exports = { addTimings, getLatestDate, registerCourt, getCourtTimeSlotData }
+const editCourt = (req, res) => {
+    try {
+        COURT.findOneAndUpdate({ _id: req.body._id }, { name: req.body.name, location: req.body.location, about: req.body.about }).then(result => {
+            res.status(200).json({message : "Court details updated"})
+        }).catch(err => {
+            res.status(400).json({message : "Cannot update court details"}); 
+        })
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong !" });
+    }
+}
+
+module.exports = { addTimings, getLatestDate, registerCourt, getCourtTimeSlotData, editCourt }

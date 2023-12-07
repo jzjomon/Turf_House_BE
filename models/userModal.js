@@ -20,6 +20,19 @@ const userSchema = mongoose.Schema({
     role : {
         type: Number,
         default: 1
+    },
+    img : String,
+    phone : {
+        type : String,
+        default : null
+    },
+    designation :{
+        type : String,
+        default : null
+    },
+    address : {
+        type : String,
+        default : null
     }
 })
 
