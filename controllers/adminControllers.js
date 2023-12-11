@@ -61,7 +61,7 @@ const actionReq = (req, res) => {
 const getNew = (req, res) => {
     try {
         COURTS.find().sort({ createdAt: -1 }).limit(4).populate('userId').then((courts) => {
-            USERS.find().sort({ createdAt: -1 }).limit(4).then((users) => {
+            USERS.find({role : {$ne : 3}}).sort({ createdAt: -1 }).limit(4).then((users) => {
                 res.status(200).json({ message: "Success", data: { courts, users } });
             }).catch((err) => {
                 res.status(400).json({ message: "cannot find the users" })
