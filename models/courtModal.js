@@ -21,6 +21,8 @@ const courtSchema = mongoose.Schema({
         type: String,
         required:true
     }
+}, {
+    timestamps : true
 })
 
 const courtModal = mongoose.model('courts',courtSchema);

@@ -1,14 +1,15 @@
 const express = require('express');
-const auth = require('../middleWares/auth.js');
 const router = express.Router();
 const fileUpload = require('express-fileupload');
-const { addTimings, registerCourt, getLatestDate, getCourtTimeSlotData, editCourt } = require('../controllers/vendorControllers.js')
+const { addTimings, registerCourt, getLatestDate, getCourtTimeSlotData, editCourt } = require('../controllers/vendorControllers.js');
+const { vendorAuth } = require('../middleWares/auth.js');
+const isBlocked = require('../middleWares/blocked.js');
 
-router.post('/addTimings', auth, addTimings);
-router.post('/register-court', fileUpload({createParentPath: true}), auth, registerCourt); 
-router.get('/getLatestDate', auth, getLatestDate);
-router.post('/getCourtTimeSlotData', auth, getCourtTimeSlotData);
-router.patch('/editCourt',auth,editCourt);
+router.post('/addTimings', vendorAuth, isBlocked, addTimings);
+router.post('/register-court',vendorAuth,isBlocked, fileUpload({createParentPath: true}),  registerCourt); 
+router.get('/getLatestDate', vendorAuth,isBlocked, getLatestDate);
+router.post('/getCourtTimeSlotData', vendorAuth, isBlocked, getCourtTimeSlotData);
+router.patch('/editCourt',vendorAuth, isBlocked, editCourt);
 
 
 

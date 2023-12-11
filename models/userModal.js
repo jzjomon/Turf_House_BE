@@ -33,7 +33,17 @@ const userSchema = mongoose.Schema({
     address : {
         type : String,
         default : null
+    },
+    request : {
+        type : Boolean,
+        default : false
+    },
+    blocked : {
+        type : Boolean,
+        default : false
     }
+}, {
+    timestamps : true
 })
 
 const userModal = mongoose.model('users',userSchema);

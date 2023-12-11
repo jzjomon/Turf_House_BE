@@ -19,13 +19,21 @@ const getCourts = (req, res) => {
                     { about: { $regex: search, $options: "i" } }
                 ]
             }).then(result => {
-                res.status(200).json(result);
+                USER.findOne({ _id: req.userId }).then((user) => {
+                    res.status(200).json({ message: "success", data: { result, user } });
+                }).catch((err) => {
+                    res.status(400).json({ message: "cannot find the user" });
+                });
             }).catch(err => {
                 res.status(401).json({ message: "Something went wrong" });
             })
         } else {
             COURT.find().limit(limit).skip(start).then(result => {
-                res.status(200).json(result);
+                USER.findOne({ _id: req.userId }).then((user) => {
+                    res.status(200).json({ message: "success", data: { result, user } });
+                }).catch((err) => {
+                    res.status(400).json({ message: "cannot find the user" });
+                });
             }).catch(err => {
                 res.status(401).json({ message: "Something went wrong" });
             })
@@ -278,4 +286,28 @@ const updateDetails = (req, res) => {
     }
 }
 
-module.exports = { getCourts, myCourts, getCourt, getSlots, getBookedData, setProfilePic, deletePic, updateDetails }
+const requestVendor = (req, res) => {
+    try {
+        USER.findOneAndUpdate({ _id: req.userId }, { request: true }, { new: true }).then((result) => {
+            res.status(200).json({ message: 'Successfully requested', data: result });
+        }).catch((err) => {
+            res.status(400).json({ message: "cannot request" })
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong !" });
+    }
+}
+
+const userDetails = (req, res) => {
+    try {
+        USER.findOne({ _id : req.body.id}).then((result) => {
+            res.status(200).json({message :"Successfull", data : result});
+        }).catch((err) => {
+            res.status(400).json({ message : "cannot find the user"});
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong !" });
+    }
+}
+
+module.exports = { getCourts, myCourts, getCourt, getSlots, getBookedData, setProfilePic, deletePic, updateDetails, requestVendor, userDetails }

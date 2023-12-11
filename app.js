@@ -10,6 +10,7 @@ var authRouter = require('./routes/auth');
 var usersRouter = require('./routes/users');
 const vendorRoutes = require('./routes/vendor');
 const paymentRoutes = require('./routes/payments')
+const adminRoutes = require('./routes/admin')
 const connectDataBase = require('./config/dbConfig');
 
 var app = express();
@@ -26,6 +27,7 @@ app.use('/', authRouter);
 app.use('/users', usersRouter);
 app.use('/vendor', vendorRoutes);
 app.use('/payment', paymentRoutes);
+app.use('/admin', adminRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
